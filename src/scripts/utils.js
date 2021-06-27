@@ -1,20 +1,20 @@
 const activeBtn = (btnClass) => {
-    const current = document.getElementsByClassName("btn-active");
-    current[0].className = current[0].className.replace(" btn-active", "");
-    btnClass.className += " btn-active";
+    const current = document.getElementsByClassName('btn-active');
+    current[0].className = current[0].className.replace(' btn-active', '');
+    btnClass.className += ' btn-active';
 };
 
 const goUpBtn = () => {
-    const btn_gotop = document.querySelector("#goTop");
+    const btn_gotop = document.querySelector('#goTop');
     window.onscroll = () => {
         if(document.body.scrollTop > 20 || document.documentElement.scrollTop > 20){
-            btn_gotop.style.display = "block";
+            btn_gotop.style.display = 'block';
         }else{
-            btn_gotop.style.display = "none";
+            btn_gotop.style.display = 'none';
         }
     }
 
-    btn_gotop.addEventListener("click", () => {
+    btn_gotop.addEventListener('click', () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     });

@@ -86,6 +86,21 @@ header {
     text-align: center;
 }
 
+#btn_burger{
+    background-color: tomato; 
+    border: 1px solid tomato;
+    color: white;
+}
+
+#btn_burger:hover {
+    font-weight: bold;
+    color: black;
+}
+
+#label_hero_search {
+    color: white;
+}
+
 #mnav_drawer {
     position: absolute;
     height: 85vh;
@@ -239,7 +254,7 @@ input:focus, div[tabindex="0"]:focus {
 
 .card_outlet_picture {
     width: 100%;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 10px 10px 0 0;
     height: 200px;
 }
 
@@ -262,6 +277,11 @@ input:focus, div[tabindex="0"]:focus {
 .outlet_text_kota,
 .outlet_text_desc {
     font-size: 11pt;
+}
+
+.outlet_text_desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*
