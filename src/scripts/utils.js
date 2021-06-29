@@ -1,70 +1,63 @@
 const textShorten = (str, maxLen, separator = ' ') => {
-    if (str.length <= maxLen) return str;
-    return str.substr(0, str.lastIndexOf(separator, maxLen));
-}
-
-const makeOutlet = (resto) => `
-        <div id="${resto.id}" tabindex="0" class="box_outlet_item">
-            <div class="card_outlet_header">
-                <img class="card_outlet_picture" src="https://restaurant-api.dicoding.dev/images/small/${resto.pictureId}" alt="Restaurant ${resto.name}">
-                <div class="outlet_text_kota">
-                    ${resto.city}
-                </div>
-            </div>
-            <div class="card_outlet_body">
-                Rating: ${resto.rating}
-                <h3 class="outlet_text_name">${resto.name}</h3>
-                <span class="outlet_text_desc">${textShorten(resto.description, 200)} ...</span>
-            </div>
-        </div>`;
+  if (str.length <= maxLen) return str;
+  return str.substr(0, str.lastIndexOf(separator, maxLen));
+};
 
 const activeBtn = (btnClass) => {
-    const current = document.getElementsByClassName('btn-active');
-    current[0].className = current[0].className.replace(' btn-active', '');
-    btnClass.className += ' btn-active';
+  const current = document.getElementsByClassName('btn-active');
+  current[0].className = current[0].className.replace(' btn-active', '');
+  // eslint-disable-next-line no-param-reassign
+  btnClass.className += ' btn-active';
 };
 
 const toggleDrawer = () => {
-    const btn_drawer = document.querySelector('#btn_showdrawer');
-    const drop_drawer = document.querySelector('#mnav_drawer');
-    btn_drawer.addEventListener('click', event => {
-        drop_drawer.classList.toggle('open');
-        event.stopPropagation();
-    });
+  const btnDrawer = document.querySelector('#btn_showdrawer');
+  const dropDrawer = document.querySelector('#mnav_drawer');
+  btnDrawer.addEventListener('click', (event) => {
+    dropDrawer.classList.toggle('open');
+    event.stopPropagation();
+  });
 
-    const hide_drawer = document.querySelectorAll('.hide_drawer');
-    for (var i = 0; i < hide_drawer.length; i++) {
-        hide_drawer[i].addEventListener('click', event => {
-            drop_drawer.classList.remove('open');
-            event.stopPropagation();
-        })
-    }
-}
+  const hideDrawer = document.querySelectorAll('.hide_drawer');
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < hideDrawer.length; i++) {
+    hideDrawer[i].addEventListener('click', (event) => {
+      dropDrawer.classList.remove('open');
+      event.stopPropagation();
+    });
+  }
+};
 
 const goUpBtn = () => {
-    const btn_gotop = document.querySelector('#goTop');
-    window.onscroll = () => {
-        if(document.body.scrollTop > 20 || document.documentElement.scrollTop > 20){
-            btn_gotop.style.display = 'block';
-        }else{
-            btn_gotop.style.display = 'none';
-        }
+  const btnGoTop = document.querySelector('#goTop');
+  window.onscroll = () => {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      btnGoTop.style.display = 'block';
+    } else {
+      btnGoTop.style.display = 'none';
     }
+  };
 
-    btn_gotop.addEventListener('click', () => {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    });
-}
+  btnGoTop.addEventListener('click', () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  });
+};
 
-const toggleLoader = (status) => status ? document.getElementById("linier-loader").style.display = "block" : document.getElementById("linier-loader").style.display = "none";
+const toggleLoader = (status) => {
+  let display = '';
+  // eslint-disable-next-line no-unused-expressions
+  status ? display = 'block' : display = 'none';
+
+  document.getElementById('linier-loader').style.display = display;
+};
 
 const Utils = {
-    goUpBtn,
-    toggleDrawer,
-    activeBtn,
-    toggleLoader,
-    makeOutlet
-}
+  goUpBtn,
+  toggleDrawer,
+  activeBtn,
+  toggleLoader,
+  textShorten,
+};
 
 export default Utils;

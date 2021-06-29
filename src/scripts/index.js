@@ -1,16 +1,14 @@
 import 'regenerator-runtime'; /* for async await transpile */
 import '../styles/main.css';
 import Utils from './utils';
-import Routing from './routing.js';
+import Routing from './routing';
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    Routing.activePage();
+  Routing.activePage();
 
-    Routing.navigateBtn();
+  Routing.navigateBtn();
 
-    Utils.toggleDrawer()
+  Utils.toggleDrawer();
 
-    Utils.goUpBtn();
-
+  Utils.goUpBtn();
 });
