@@ -129,7 +129,7 @@ header {
     background-color:tomato;
     z-index: 10;
     width: 50%;
-    transform: translate(-100%, 0);
+    transform: translate(-101%, 0);
     transition: transform 0.3s ease-in-out;
 }
 
@@ -397,6 +397,20 @@ input:focus, div[tabindex="0"]:focus {
 #name_user_review {
     margin-bottom: 5px;
 }
+
+#btnBackArrow {
+    background: transparent;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: fixed;
+    z-index: 5;
+    cursor: pointer;
+    border: none;
+}
+
+#btnBackArrow:hover {
+    background-color: tomato;
+}
 /*
  * Scroll to The Top
  */
@@ -533,11 +547,6 @@ progress {
     #box_outlet_wrapper {
         grid-template-columns: repeat(3, 1fr);
     }
-
-    /* .box_hero_resto {
-        width: 80%;
-        margin: auto;
-    } */
 
 }
 

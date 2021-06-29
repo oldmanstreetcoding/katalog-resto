@@ -1,7 +1,16 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-console */
 import SumberData from './data';
+import Routing from './routing';
 import Utils from './utils';
+
+const backPage = () => {
+  const btnBack = document.getElementById('btnBackArrow');
+  btnBack.addEventListener('click', () => {
+    Routing.activePage();
+  });
+};
 
 const sentReview = (id) => {
   const btnReview = document.getElementById('btn_user_review');
@@ -80,7 +89,11 @@ const makeDetilOutlet = (resto) => {
   const detilOutletHTML = `
         <article class="box_card_resto">
             
-            <div class="box_hero_resto" style="background-image: url('https://restaurant-api.dicoding.dev/images/large/${resto.pictureId}');"></div>
+            <div class="box_hero_resto" style="background-image: url('https://restaurant-api.dicoding.dev/images/large/${resto.pictureId}');">
+              <button class="tombol" id="btnBackArrow">
+                <img class="imgbackarrow" src="../icons/arrow.png" alt="back"/>
+              </button>
+            </div>
             
             <div class="card_resto_wrapper">
                 <div class="card_resto">
@@ -112,7 +125,9 @@ const makeDetilOutlet = (resto) => {
                     </div>
                 </div>
                 <div class="card_resto_review">
+                    <label style="display:none" id="label_name_user_review" for="name_user_review">Masukkan Nama Anda</label>
                     <input type="text" id="name_user_review" name="name_user_review" placeholder="Masukkan Nama Anda"/>
+                    <label style="display:none" id="label_text_user_review" for="text_user_review">Tuliskan Review Anda Tentang Resto ini</label>
                     <textarea id="text_user_review" name="text_user_review" rows="3" placeholder="Tuliskan Review Anda Tentang Resto ini"></textarea>
                     <button id="btn_user_review">Submit</button>
                     ${textUserReview}
@@ -131,6 +146,8 @@ const DetailResto = (id) => {
       document.getElementById('body-content').innerHTML = makeDetilOutlet(result.restaurant);
 
       sentReview(id);
+
+      backPage();
     })
     .catch((error) => console.log(error))
     .finally(() => Utils.toggleLoader(false));
