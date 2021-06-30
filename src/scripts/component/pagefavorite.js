@@ -4,13 +4,12 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable array-callback-return */
 /* eslint-disable import/no-cycle */
-import Favorite from '../templates/pages/favorite.html';
-import INDB from './data/indb';
-import Utils from './utils';
-import { makeOutlet } from './pagehome';
-import {
-  makeDetailOutlet, btnBackPage, sendReview, deleteFavOneResto,
-} from './pagedetail';
+import Favorite from '../../templates/pages/favorite.html';
+import INDB from '../data/indb';
+import Utils from '../utils/utils';
+import makeOutlet from './outlet';
+import makeDetailOutlet from './detiloutlet';
+import { btnBackPage, sendReview, deleteFavOneResto } from './pagedetail';
 
 const getOneRestoINDB = () => {
   const btnResto = document.querySelectorAll('.box_outlet_item');

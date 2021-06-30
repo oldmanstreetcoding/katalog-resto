@@ -1,9 +1,9 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
-import PageHome from './pagehome';
-import PageFavorite from './pagefavorite';
-import Utils from './utils';
+import PageHome from '../component/pagehome';
+import PageFavorite from '../component/pagefavorite';
+import Utils from '../utils/utils';
 
 const Router = (page) => {
   if (page === 'favorite') {

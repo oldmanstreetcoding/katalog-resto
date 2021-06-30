@@ -6,36 +6,12 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
-import Home from '../templates/pages/home.html';
-import CONFIG from './config';
-import API from './data/api';
-import INDB from './data/indb';
-import Utils from './utils';
+import Home from '../../templates/pages/home.html';
+import API from '../data/api';
+import INDB from '../data/indb';
+import Utils from '../utils/utils';
 import PageDetail from './pagedetail';
-
-export const makeOutlet = (resto, typeheart) => `
-        <div id="${resto.id}" tabindex="0" class="box_outlet_item">
-            <div class="card_outlet_header">
-                <img class="card_outlet_picture" src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}" alt="Restaurant ${resto.name}">
-                <div class="outlet_text_kota">
-                    ${resto.city}
-                </div>
-            </div>
-            <div class="card_outlet_body">
-                <div>
-                  Rating: ${resto.rating}
-                  <h3 class="outlet_text_name">${resto.name}</h3>
-                </div>
-                <div>
-                  <button class="btnSaveFavorite ${typeheart}" id="${resto.id}">
-                    <img class="tombol" src="./icons/${typeheart}.png" alt="Heart">
-                  </button>
-                </div>
-            </div>
-            <div class="card_outlet_footer">
-              <span class="outlet_text_desc">${Utils.textShorten(resto.description, 200)} ...</span>
-            </div>
-        </div>`;
+import makeOutlet from './outlet';
 
 export const getOneResto = () => {
   const btnResto = document.querySelectorAll('.box_outlet_item');

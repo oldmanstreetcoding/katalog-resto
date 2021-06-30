@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import CONFIG from '../config';
+import CONFIG from '../config/config';
 
 const chekStatus = (response) => {
   if (response.status !== 200) {

@@ -3,12 +3,15 @@
 <head>
     <title>FoodStop : Food Networking</title>
 
-    <link rel="shortcut icon" href="../public/icons/cooking.svg">
-    <link rel="apple-touch-icon" href="/cooking.png">
+    <link rel="shortcut icon" href="/icons/icon-apple.png">
+    <link rel="icon" href="/icons/favicon.png">
+    <link rel="apple-touch-icon" href="/icons/icon-apple.png">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff6347"/>
 
+    <link rel="manifest" href="manifest.json">
     <meta name="description" content="Web Aplikasi Katalog Restoran">
     <meta name="keywords" content="Food, Restaurant, Dishes">
     <meta name="author" content="streetcoding">
@@ -37,7 +40,9 @@
                         <li class="nav_list_detil"><a class="tombol btn-nav" href="https://github.com/oldmanstreetcoding" target="_blank">About Us</a></li>
                         
                         <li class="nav_showdrawer" id="btn_showdrawer">
-                            <Button class="tombol" id="btn_burger" aria-label="Open Drawer Menu">☰</Button>
+                            <button class="tombol" id="btn_burger" aria-label="Open Drawer Menu">
+                                <img class="imgburger" src="/icons/square.png" alt="menuburger"/>
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -57,9 +62,7 @@
         </aside>
 
         <!-- App Main Content -->
-        <main id="body-content">
-            
-        </main>
+        <main id="body-content"></main>
 
         <!-- App Footer -->
         <footer>

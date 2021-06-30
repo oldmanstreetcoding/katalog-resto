@@ -1,7 +1,8 @@
 import 'regenerator-runtime'; /* for async await transpile */
 import '../styles/main.css';
-import Utils from './utils';
-import Routing from './routing';
+import Utils from './utils/utils';
+import Routing from './routing/routing';
+import swRegister from './utils/sw-register';
 
 document.addEventListener('DOMContentLoaded', () => {
   Routing.pageActive();
@@ -11,4 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   Utils.toggleDrawer();
 
   Utils.btnGoUp();
+
+  swRegister();
 });
