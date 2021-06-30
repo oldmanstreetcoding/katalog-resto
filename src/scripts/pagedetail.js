@@ -1,18 +1,24 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-use-before-define */
 /* eslint-disable import/no-cycle */
-/* eslint-disable array-callback-return */
 /* eslint-disable no-console */
-import SumberData from './data';
+/* eslint-disable array-callback-return */
+import CONFIG from './config';
+import API from './data/api';
+import INDB from './data/indb';
 import Routing from './routing';
 import Utils from './utils';
 
-const backPage = () => {
+export const btnBackPage = () => {
   const btnBack = document.getElementById('btnBackArrow');
   btnBack.addEventListener('click', () => {
-    Routing.activePage();
+    Routing.pageActive();
   });
 };
 
-const sentReview = (id) => {
+export const sendReview = (id) => {
   const btnReview = document.getElementById('btn_user_review');
   btnReview.addEventListener('click', () => {
     const nameReview = document.getElementById('name_user_review').value;
@@ -26,19 +32,18 @@ const sentReview = (id) => {
       };
 
       Utils.toggleLoader(true);
-      SumberData.sentData('review', comment)
-        .then((r) => {
-          console.log(r);
-          // eslint-disable-next-line no-use-before-define
-          DetailResto(id);
+      API.sendData(comment)
+        .then(() => {
+          Utils.toggleToast('success', 'Komentar Anda Telah Terkirim');
+          PageDetail(id);
         })
-        .catch((e) => console.log(e))
+        .catch(() => Utils.toggleToast('error', 'Gagal Kirim Komentar !'))
         .finally(() => Utils.toggleLoader(false));
     }
   });
 };
 
-const makeDetilOutlet = (resto) => {
+export const makeDetailOutlet = (resto, typeheart) => {
   let textCategory = '';
 
   resto.categories.map((text, index) => {
@@ -68,7 +73,6 @@ const makeDetilOutlet = (resto) => {
 
   let textUserReview = '<ul class="review_list">';
 
-  // eslint-disable-next-line array-callback-return
   resto.customerReviews.map((review) => {
     textUserReview += `<li>
             <div class="review_wrapper">
@@ -88,13 +92,13 @@ const makeDetilOutlet = (resto) => {
 
   const detilOutletHTML = `
         <article class="box_card_resto">
-            
-            <div class="box_hero_resto" style="background-image: url('https://restaurant-api.dicoding.dev/images/large/${resto.pictureId}');">
+
+            <div class="box_hero_resto" style="background-image: url('${CONFIG.BASE_IMAGE_URL}large/${resto.pictureId}');">
               <button class="tombol" id="btnBackArrow">
                 <img class="imgbackarrow" src="../icons/arrow.png" alt="back"/>
               </button>
             </div>
-            
+
             <div class="card_resto_wrapper">
                 <div class="card_resto">
                     <div class="card_resto_brand">
@@ -103,7 +107,9 @@ const makeDetilOutlet = (resto) => {
                         <p>${resto.address}, ${resto.city}</p>
                     </div>
                     <div class="card_resto_rating">
-                        <img class="imglovenam" src="../icons/heart.png" alt="heart"/>
+                        <button class="btnSaveFavorite ${typeheart}" id="${resto.id}">
+                          <img class="tombol" src="./icons/${typeheart}.png" alt="Heart">
+                        </button>
                         <p>Rating : ${resto.rating}</p>
                         <small>${resto.customerReviews.length} Reviews</small>
                     </div>
@@ -138,19 +144,72 @@ const makeDetilOutlet = (resto) => {
   return detilOutletHTML;
 };
 
-const DetailResto = (id) => {
-  Utils.toggleLoader(true);
-  SumberData.getAllData(`detail/${id}`)
-    .then((result) => {
-      console.log(result.restaurant);
-      document.getElementById('body-content').innerHTML = makeDetilOutlet(result.restaurant);
+export const saveFavOneResto = (resto) => {
+  const btn = document.getElementsByClassName('redheart');
+  for (let i = 0; i < btn.length; i++) {
+    btn[i].addEventListener('click', (event) => {
+      INDB.saveData(resto)
+        .then(() => {
+          Utils.toggleToast('success', 'Sukses Simpan Data');
+          PageDetail(resto.id);
+        })
+        .catch(() => Utils.toggleToast('error', 'Gagal Simpan Data !'));
 
-      sentReview(id);
+      event.stopPropagation();
+    });
+  }
+};
 
-      backPage();
+export const deleteFavOneResto = () => {
+  const btn = document.getElementsByClassName('greyheart');
+  for (let i = 0; i < btn.length; i++) {
+    btn[i].addEventListener('click', (event) => {
+      const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
+      if (strconfirm) {
+        INDB.deleteData(btn[i].id)
+          .then(() => {
+            Utils.toggleToast('success', 'Sukses Hapus Data');
+            PageDetail(btn[i].id);
+          })
+          .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
+      }
+
+      event.stopPropagation();
+    });
+  }
+};
+
+const checkDataOneINDB = (resto) => {
+  INDB.getOneData(resto.id)
+    .then((restoINDB) => {
+      let typeheart = '';
+      if (restoINDB === undefined) {
+        typeheart = 'redheart';
+      } else {
+        typeheart = 'greyheart';
+      }
+
+      document.getElementById('body-content').innerHTML = makeDetailOutlet(resto, typeheart);
+
+      saveFavOneResto(resto);
+
+      deleteFavOneResto();
+
+      sendReview(resto.id);
+
+      btnBackPage();
     })
-    .catch((error) => console.log(error))
+    .catch(() => Utils.toggleToast('error', 'Error Check IndexedDB !'));
+};
+
+const PageDetail = (id) => {
+  Utils.toggleLoader(true);
+  API.getOneData(id)
+    .then((result) => {
+      checkDataOneINDB(result.restaurant);
+    })
+    .catch(() => Utils.toggleToast('error', 'Gagal Tarik Data !'))
     .finally(() => Utils.toggleLoader(false));
 };
 
-export default DetailResto;
+export default PageDetail;

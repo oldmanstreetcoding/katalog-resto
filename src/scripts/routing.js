@@ -1,34 +1,34 @@
-import HomePage from './homepage';
+/* eslint-disable import/no-cycle */
+/* eslint-disable no-console */
+/* eslint-disable no-plusplus */
+import PageHome from './pagehome';
+import PageFavorite from './pagefavorite';
 import Utils from './utils';
 
-// Router navigasi aplikasi
 const Router = (page) => {
   if (page === 'favorite') {
-    // eslint-disable-next-line no-console
-    console.log('open favorite page');
+    PageFavorite();
   } else {
-    HomePage();
+    PageHome();
   }
 };
 
-// Navigasi sesuai hash URL
-const activePage = () => Router(window.location.hash.split('#')[1]);
+const pageActive = () => Router(window.location.hash.split('#')[1]);
 
-const navigateBtn = () => {
-  const btnav = document.querySelectorAll('.btn-nav');
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < btnav.length; i++) {
-    btnav[i].addEventListener('click', () => {
-      Utils.activeBtn(btnav[i]);
-      const href = btnav[i].getAttribute('href').split('#')[1];
+const btnNavigate = () => {
+  const btnNav = document.querySelectorAll('.btn-nav');
+  for (let i = 0; i < btnNav.length; i++) {
+    btnNav[i].addEventListener('click', () => {
+      Utils.btnActive(btnNav[i]);
+      const href = btnNav[i].getAttribute('href').split('#')[1];
       Router(href);
     });
   }
 };
 
 const Routing = {
-  activePage,
-  navigateBtn,
+  pageActive,
+  btnNavigate,
 };
 
 export default Routing;

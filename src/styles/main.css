@@ -179,23 +179,46 @@ ul a:hover {
     margin-top: 50px;
 }
 
-#hero_inner {
+#hero_fav {
+    display: flex;
+    align-items: center;
+    min-height: 350px;
+    width: 100%;
+    text-align: center;
+    background-position: center;
+    background-color: rgb(237, 225, 214);
+    background-image: url('../public/images/heros/hero-image_2.jpg');
+    margin-top: 50px;
+}
+
+#hero_inner, #hero_inner_fav {
     margin: 0 auto;
     padding: 10px;
 }
 
-#hero_title {
-    color: white;
+#hero_title, #hero_title_fav {
     font-weight: 500;
     font-size: 25px;
     font-weight: bold;
 }
 
-#hero_tagline {
-    color: whitesmoke;
+#hero_tagline, #hero_tagline_fav {
     margin-top: 15px;
     font-size: 18px;
     font-weight: 500;
+}
+
+#hero_tagline, #hero_title {
+    color: whitesmoke;
+}
+
+#hero_title_fav, #hero_tagline_fav {
+    color: black
+}
+
+#text_info_favorite {
+    color: grey;
+    text-align: center;
 }
 
 #hero_search {
@@ -228,7 +251,7 @@ input:focus, div[tabindex="0"]:focus {
 #box_outlet_wrapper {
     padding: 15px;
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 1fr;
     row-gap: 25px;
     column-gap: 25px;
     width: 98%;
@@ -243,7 +266,7 @@ input:focus, div[tabindex="0"]:focus {
     box-shadow: 5px 10px 8px #888888;
 }
 
-.box_outlet_item:hover, .card_resto_rating:hover {
+.box_outlet_item:hover {
     box-shadow: 0 0 2px 3px tomato;
     cursor: pointer;
 }
@@ -254,6 +277,35 @@ input:focus, div[tabindex="0"]:focus {
 
 .card_outlet_body {
     padding: 10px;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+
+.imgheart {
+    width: 50px;
+}
+
+.btnSaveFavorite{
+    border: none;
+    background: transparent;
+    padding: 5px 5px 0 5px;
+}
+
+.redheart:hover{
+    cursor: pointer;
+    box-shadow: 0 0 2px 3px tomato;
+    border-radius: 5px;
+}
+
+.greyheart:hover{
+    cursor: pointer;
+    box-shadow: 0 0 2px 3px grey;
+    border-radius: 5px;
+}
+
+.card_outlet_footer {
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .card_outlet_picture {
@@ -272,6 +324,7 @@ input:focus, div[tabindex="0"]:focus {
     top: 0;
     padding: 8px;
     text-align: center;
+    opacity: 0.8;
 }
 
 .outlet_text_name {
@@ -329,7 +382,7 @@ input:focus, div[tabindex="0"]:focus {
 }
 
 .imglove {
-    width: 40px
+    width: 50px;
 }
 
 .text_resto_category {
@@ -411,6 +464,7 @@ input:focus, div[tabindex="0"]:focus {
 #btnBackArrow:hover {
     background-color: tomato;
 }
+
 /*
  * Scroll to The Top
  */
@@ -437,6 +491,25 @@ input:focus, div[tabindex="0"]:focus {
 #goTop:hover {
     background-color: #555;
 }
+
+/*
+ * toast-message
+ */
+
+#toast-message {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    z-index: 30;
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+
 
 /*
  * Footer

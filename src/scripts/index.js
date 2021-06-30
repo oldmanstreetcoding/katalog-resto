@@ -4,11 +4,11 @@ import Utils from './utils';
 import Routing from './routing';
 
 document.addEventListener('DOMContentLoaded', () => {
-  Routing.activePage();
+  Routing.pageActive();
 
-  Routing.navigateBtn();
+  Routing.btnNavigate();
 
   Utils.toggleDrawer();
 
-  Utils.goUpBtn();
+  Utils.btnGoUp();
 });
