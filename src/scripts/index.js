@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Routing.btnNavigate();
 
+  Routing.btnBrand();
+
   Utils.toggleDrawer();
 
   Utils.btnGoUp();

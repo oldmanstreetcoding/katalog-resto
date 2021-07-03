@@ -93,7 +93,7 @@ const makeDetailOutlet = (resto, typeheart) => {
                       <input type="text" id="name_user_review" name="name_user_review" placeholder="Masukkan Nama Anda"/>
                       <label style="display:none" id="label_text_user_review" for="text_user_review">Tuliskan Review Anda Tentang Resto ini</label>
                       <textarea id="text_user_review" name="text_user_review" rows="3" placeholder="Tuliskan Review Anda Tentang Resto ini"></textarea>
-                      <button id="btn_user_review">Submit</button>
+                      <button class="tombol" id="btn_user_review">Submit</button>
                       ${textUserReview}
                   </div>
               </div>

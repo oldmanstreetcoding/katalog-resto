@@ -14,6 +14,7 @@ import makeDetailOutlet from './detiloutlet';
 export const btnBackPage = () => {
   const btnBack = document.getElementById('btnBackArrow');
   btnBack.addEventListener('click', () => {
+    localStorage.removeItem('showPage');
     Routing.pageActive();
   });
 };
@@ -44,7 +45,7 @@ export const sendReview = (id) => {
 };
 
 export const saveFavOneResto = (resto) => {
-  const btn = document.getElementsByClassName('redheart');
+  const btn = document.getElementsByClassName('greyheart');
   for (let i = 0; i < btn.length; i++) {
     btn[i].addEventListener('click', (event) => {
       INDB.saveData(resto)
@@ -60,7 +61,7 @@ export const saveFavOneResto = (resto) => {
 };
 
 export const deleteFavOneResto = () => {
-  const btn = document.getElementsByClassName('greyheart');
+  const btn = document.getElementsByClassName('redheart');
   for (let i = 0; i < btn.length; i++) {
     btn[i].addEventListener('click', (event) => {
       const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
@@ -83,9 +84,9 @@ const checkDataOneINDB = (resto) => {
     .then((restoINDB) => {
       let typeheart = '';
       if (restoINDB === undefined) {
-        typeheart = 'redheart';
-      } else {
         typeheart = 'greyheart';
+      } else {
+        typeheart = 'redheart';
       }
 
       document.getElementById('body-content').innerHTML = makeDetailOutlet(resto, typeheart);

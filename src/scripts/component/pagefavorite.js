@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
@@ -11,42 +12,60 @@ import makeOutlet from './outlet';
 import makeDetailOutlet from './detiloutlet';
 import { btnBackPage, sendReview, deleteFavOneResto } from './pagedetail';
 
+const openDetilINDB = (id) => {
+  INDB.getOneData(id)
+    .then((resto) => {
+      document.getElementById('body-content').innerHTML = makeDetailOutlet(resto, 'redheart');
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+      localStorage.setItem('showPage', id);
+
+      deleteFavOneResto();
+
+      sendReview(resto.id);
+
+      btnBackPage();
+    })
+    .catch(() => Utils.toggleToast('error', 'Gagal Tarik Data IndexedDB !'));
+};
+
 const getOneRestoINDB = () => {
   const btnResto = document.querySelectorAll('.box_outlet_item');
   for (let i = 0; i < btnResto.length; i++) {
-    btnResto[i].addEventListener('click', () => {
-      INDB.getOneData(btnResto[i].id)
-        .then((resto) => {
-          document.getElementById('body-content').innerHTML = makeDetailOutlet(resto, 'greyheart');
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
+    btnResto[i].addEventListener('click', () => openDetilINDB(btnResto[i].id));
 
-          deleteFavOneResto();
-
-          sendReview(resto.id);
-
-          btnBackPage();
-        })
-        .catch(() => Utils.toggleToast('error', 'Gagal Tarik Data IndexedDB !'));
+    btnResto[i].addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        openDetilINDB(btnResto[i].id);
+      }
     });
   }
 };
 
-const deleteFavRestoINDB = () => {
-  const btn = document.getElementsByClassName('greyheart');
-  for (let i = 0; i < btn.length; i++) {
-    btn[i].addEventListener('click', (event) => {
-      const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
-      if (strconfirm) {
-        INDB.deleteData(btn[i].id)
-          .then(() => {
-            Utils.toggleToast('success', 'Sukses Hapus Data');
-            getAllRestoINDB();
-          })
-          .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
-      }
+const deleteRestoINDB = (id, event) => {
+  const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
+  if (strconfirm) {
+    INDB.deleteData(id)
+      .then(() => {
+        Utils.toggleToast('success', 'Sukses Hapus Data');
+        getAllRestoINDB();
+      })
+      .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
+  }
 
-      event.stopPropagation();
+  event.stopPropagation();
+  event.preventDefault();
+};
+
+const deleteFavRestoINDB = () => {
+  const btn = document.getElementsByClassName('redheart');
+  for (let i = 0; i < btn.length; i++) {
+    btn[i].addEventListener('click', (event) => deleteRestoINDB(btn[i].id, event));
+
+    btn[i].addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        deleteRestoINDB(btn[i].id, event);
+      }
     });
   }
 };
@@ -63,7 +82,7 @@ const getAllRestoINDB = () => {
         Utils.toggleToast('info', 'Resto Favorite Tidak Ditemukan');
       } else {
         result.map((resto) => {
-          box.innerHTML += makeOutlet(resto, 'greyheart');
+          box.innerHTML += makeOutlet(resto, 'redheart');
 
           deleteFavRestoINDB();
 

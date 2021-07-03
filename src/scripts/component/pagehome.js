@@ -13,54 +13,81 @@ import Utils from '../utils/utils';
 import PageDetail from './pagedetail';
 import makeOutlet from './outlet';
 
+const openPageDetail = (id) => {
+  PageDetail(id);
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  localStorage.setItem('showPage', id);
+};
+
 export const getOneResto = () => {
   const btnResto = document.querySelectorAll('.box_outlet_item');
   for (let i = 0; i < btnResto.length; i++) {
-    btnResto[i].addEventListener('click', () => {
-      PageDetail(btnResto[i].id);
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
+    btnResto[i].addEventListener('click', () => openPageDetail(btnResto[i].id));
+
+    btnResto[i].addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        openPageDetail(btnResto[i].id);
+      }
     });
   }
+};
+
+const saveResto = (id, event) => {
+  Utils.toggleLoader(true);
+  API.getOneData(id)
+    .then((result) => {
+      INDB.saveData(result.restaurant)
+        .then(() => {
+          Utils.toggleToast('success', 'Sukses Simpan Data');
+          getAllResto();
+        })
+        .catch(() => Utils.toggleToast('error', 'Gagal Simpan Data !'));
+    })
+    .catch(() => Utils.toggleToast('error', 'Gagal Tarik Data !'))
+    .finally(() => Utils.toggleLoader(false));
+
+  event.stopPropagation();
+  event.preventDefault();
 };
 
 const saveFavResto = () => {
-  const btn = document.getElementsByClassName('redheart');
+  const btn = document.getElementsByClassName('greyheart');
   for (let i = 0; i < btn.length; i++) {
-    btn[i].addEventListener('click', (event) => {
-      Utils.toggleLoader(true);
-      API.getOneData(btn[i].id)
-        .then((result) => {
-          INDB.saveData(result.restaurant)
-            .then(() => {
-              Utils.toggleToast('success', 'Sukses Simpan Data');
-              getAllResto();
-            })
-            .catch(() => Utils.toggleToast('error', 'Gagal Simpan Data !'));
-        })
-        .catch(() => Utils.toggleToast('error', 'Gagal Tarik Data !'))
-        .finally(() => Utils.toggleLoader(false));
+    btn[i].addEventListener('click', (event) => saveResto(btn[i].id, event));
 
-      event.stopPropagation();
+    btn[i].addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        saveResto(btn[i].id, event);
+      }
     });
   }
 };
 
-const deleteFavResto = () => {
-  const btn = document.getElementsByClassName('greyheart');
-  for (let i = 0; i < btn.length; i++) {
-    btn[i].addEventListener('click', (event) => {
-      const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
-      if (strconfirm) {
-        INDB.deleteData(btn[i].id)
-          .then(() => {
-            Utils.toggleToast('success', 'Sukses Hapus Data');
-            getAllResto();
-          })
-          .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
-      }
+const deleteResto = (id, event) => {
+  const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
+  if (strconfirm) {
+    INDB.deleteData(id)
+      .then(() => {
+        Utils.toggleToast('success', 'Sukses Hapus Data');
+        getAllResto();
+      })
+      .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
+  }
 
-      event.stopPropagation();
+  event.stopPropagation();
+  event.preventDefault();
+};
+
+const deleteFavResto = () => {
+  const btn = document.getElementsByClassName('redheart');
+  for (let i = 0; i < btn.length; i++) {
+    btn[i].addEventListener('click', (event) => deleteResto(btn[i].id, event));
+
+    btn[i].addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        deleteResto(btn[i].id, event);
+      }
     });
   }
 };
@@ -71,7 +98,7 @@ const checkDataINDB = (resto) => {
   box.innerHTML = '';
   INDB.getOneData(resto.id)
     .then((detilResto) => {
-      if (detilResto !== undefined) {
+      if (detilResto === undefined) {
         box.innerHTML += makeOutlet(resto, 'greyheart');
       } else {
         box.innerHTML += makeOutlet(resto, 'redheart');
