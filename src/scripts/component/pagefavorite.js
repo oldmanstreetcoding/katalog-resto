@@ -85,7 +85,7 @@ const getAllRestoINDB = () => {
   INDB.getAllData()
     .then((result) => {
       if (result.length === 0) {
-        box.innerHTML += '<div id="text_info_favorite">Silahkan Kembali Ke Halaman Utama untuk Pilih Resto Favorite Terlebih Dahulu</div>';
+        box.innerHTML += '<div class="resto-item__not__found" id="text_info_favorite">Silahkan Kembali Ke Halaman Utama untuk Pilih Resto Favorite Terlebih Dahulu</div>';
         Utils.toggleToast('info', 'Resto Favorite Tidak Ditemukan');
       } else {
         result.map((resto) => {

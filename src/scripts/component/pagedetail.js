@@ -21,6 +21,7 @@ export const btnBackPage = () => {
 
 export const sendReview = (id) => {
   const btnReview = document.getElementById('btn_user_review');
+
   btnReview.addEventListener('click', () => {
     const nameReview = document.getElementById('name_user_review').value;
     const textReview = document.getElementById('text_user_review').value;
@@ -40,6 +41,8 @@ export const sendReview = (id) => {
         })
         .catch(() => Utils.toggleToast('error', 'Gagal Kirim Komentar !'))
         .finally(() => Utils.toggleLoader(false));
+    } else {
+      alert('Silahkan lengkapi form pengisian terlebih dahulu !');
     }
   });
 };
