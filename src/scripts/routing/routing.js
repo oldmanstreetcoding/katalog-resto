@@ -16,7 +16,6 @@ const Router = (page) => {
 
 const pageActive = () => {
   const pageId = localStorage.getItem('showPage');
-  console.log(pageId);
   if (pageId !== null) {
     PageDetail(pageId);
   } else {

@@ -1,3 +1,5 @@
+/* eslint-disable no-loop-func */
+/* eslint-disable no-undef */
 /* eslint-disable no-console */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-globals */
@@ -8,19 +10,24 @@
 import Favorite from '../../templates/pages/favorite.html';
 import INDB from '../data/indb';
 import Utils from '../utils/utils';
-import makeOutlet from './outlet';
-import makeDetailOutlet from './detiloutlet';
-import { btnBackPage, sendReview, deleteFavOneResto } from './pagedetail';
+import makeOutlet from './makeOutlet';
+import makeDetailOutlet from './makeDetailOutlet';
+import { btnBackPage, sendReview } from './pagedetail';
+import BtnFavCreator from './btnFavCreator';
+import LikeButtonPresenter from './LikeButtonPresenter';
 
 const openDetilINDB = (id) => {
   INDB.getOneData(id)
     .then((resto) => {
-      document.getElementById('body-content').innerHTML = makeDetailOutlet(resto, 'redheart');
+      document.getElementById('body-content').innerHTML = makeDetailOutlet(resto);
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
       localStorage.setItem('showPage', id);
 
-      deleteFavOneResto();
+      LikeButtonPresenter.init({
+        likeButtonContainer: document.querySelector('#likeButtonContainer'),
+        restaurant: resto,
+      });
 
       sendReview(resto.id);
 
@@ -58,7 +65,7 @@ const deleteRestoINDB = (id, event) => {
 };
 
 const deleteFavRestoINDB = () => {
-  const btn = document.getElementsByClassName('redheart');
+  const btn = document.getElementsByClassName('like');
   for (let i = 0; i < btn.length; i++) {
     btn[i].addEventListener('click', (event) => deleteRestoINDB(btn[i].id, event));
 
@@ -82,7 +89,7 @@ const getAllRestoINDB = () => {
         Utils.toggleToast('info', 'Resto Favorite Tidak Ditemukan');
       } else {
         result.map((resto) => {
-          box.innerHTML += makeOutlet(resto, 'redheart');
+          box.innerHTML += makeOutlet(resto, BtnFavCreator('like', resto.id));
 
           deleteFavRestoINDB();
 

@@ -297,13 +297,13 @@ input:focus, div[tabindex="0"]:focus {
     padding: 5px 5px 0 5px;
 }
 
-.redheart:hover{
+.like:hover{
     cursor: pointer;
     box-shadow: 0 0 2px 3px tomato;
     border-radius: 5px;
 }
 
-.greyheart:hover{
+.unlike:hover{
     cursor: pointer;
     box-shadow: 0 0 2px 3px grey;
     border-radius: 5px;

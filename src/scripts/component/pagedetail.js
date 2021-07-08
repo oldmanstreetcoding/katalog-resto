@@ -6,10 +6,10 @@
 /* eslint-disable no-console */
 /* eslint-disable array-callback-return */
 import API from '../data/api';
-import INDB from '../data/indb';
 import Routing from '../routing/routing';
 import Utils from '../utils/utils';
-import makeDetailOutlet from './detiloutlet';
+import LikeButtonPresenter from './LikeButtonPresenter';
+import makeDetailOutlet from './makeDetailOutlet';
 
 export const btnBackPage = () => {
   const btnBack = document.getElementById('btnBackArrow');
@@ -44,69 +44,20 @@ export const sendReview = (id) => {
   });
 };
 
-export const saveFavOneResto = (resto) => {
-  const btn = document.getElementsByClassName('greyheart');
-  for (let i = 0; i < btn.length; i++) {
-    btn[i].addEventListener('click', (event) => {
-      INDB.saveData(resto)
-        .then(() => {
-          Utils.toggleToast('success', 'Sukses Simpan Data');
-          PageDetail(resto.id);
-        })
-        .catch(() => Utils.toggleToast('error', 'Gagal Simpan Data !'));
-
-      event.stopPropagation();
-    });
-  }
-};
-
-export const deleteFavOneResto = () => {
-  const btn = document.getElementsByClassName('redheart');
-  for (let i = 0; i < btn.length; i++) {
-    btn[i].addEventListener('click', (event) => {
-      const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
-      if (strconfirm) {
-        INDB.deleteData(btn[i].id)
-          .then(() => {
-            Utils.toggleToast('success', 'Sukses Hapus Data');
-            PageDetail(btn[i].id);
-          })
-          .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
-      }
-
-      event.stopPropagation();
-    });
-  }
-};
-
-const checkDataOneINDB = (resto) => {
-  INDB.getOneData(resto.id)
-    .then((restoINDB) => {
-      let typeheart = '';
-      if (restoINDB === undefined) {
-        typeheart = 'greyheart';
-      } else {
-        typeheart = 'redheart';
-      }
-
-      document.getElementById('body-content').innerHTML = makeDetailOutlet(resto, typeheart);
-
-      saveFavOneResto(resto);
-
-      deleteFavOneResto();
-
-      sendReview(resto.id);
-
-      btnBackPage();
-    })
-    .catch(() => Utils.toggleToast('error', 'Error Check IndexedDB !'));
-};
-
 const PageDetail = (id) => {
   Utils.toggleLoader(true);
   API.getOneData(id)
     .then((result) => {
-      checkDataOneINDB(result.restaurant);
+      document.getElementById('body-content').innerHTML = makeDetailOutlet(result.restaurant);
+
+      LikeButtonPresenter.init({
+        likeButtonContainer: document.querySelector('#likeButtonContainer'),
+        restaurant: result.restaurant,
+      });
+
+      sendReview(result.restaurant.id);
+
+      btnBackPage();
     })
     .catch(() => Utils.toggleToast('error', 'Gagal Tarik Data !'))
     .finally(() => Utils.toggleLoader(false));

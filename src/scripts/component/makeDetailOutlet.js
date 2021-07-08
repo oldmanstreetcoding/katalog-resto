@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 import CONFIG from '../config/config';
 
-const makeDetailOutlet = (resto, typeheart) => {
+const makeDetailOutlet = (resto) => {
   let textCategory = '';
 
   resto.categories.map((text, index) => {
@@ -65,9 +65,7 @@ const makeDetailOutlet = (resto, typeheart) => {
                           <p>${resto.address}, ${resto.city}</p>
                       </div>
                       <div class="card_resto_rating">
-                          <button class="btnSaveFavorite ${typeheart}" id="${resto.id}">
-                            <img class="tombol" src="./icons/${typeheart}.png" alt="Heart">
-                          </button>
+                          <div id="likeButtonContainer"></div>
                           <p>Rating : ${resto.rating}</p>
                           <small>${resto.customerReviews.length} Reviews</small>
                       </div>

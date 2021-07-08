@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-param-reassign */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
@@ -15,9 +16,21 @@ const dbPromise = openDB(DATABASE_NAME, DATABASE_VERSION, {
 
 const getAllData = async () => (await dbPromise).getAll(OBJECT_STORE_NAME);
 
-const getOneData = async (id) => (await dbPromise).get(OBJECT_STORE_NAME, id);
+const getOneData = async (id) => {
+  if (!id) {
+    return null;
+  }
 
-const saveData = async (resto) => (await dbPromise).put(OBJECT_STORE_NAME, resto);
+  return (await dbPromise).get(OBJECT_STORE_NAME, id);
+};
+
+const saveData = async (resto) => {
+  if (!resto.hasOwnProperty('id')) {
+    return null;
+  }
+
+  return (await dbPromise).put(OBJECT_STORE_NAME, resto);
+};
 
 const deleteData = async (id) => (await dbPromise).delete(OBJECT_STORE_NAME, id);
 

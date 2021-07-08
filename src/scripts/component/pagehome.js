@@ -11,7 +11,8 @@ import API from '../data/api';
 import INDB from '../data/indb';
 import Utils from '../utils/utils';
 import PageDetail from './pagedetail';
-import makeOutlet from './outlet';
+import makeOutlet from './makeOutlet';
+import BtnFavCreator from './btnFavCreator';
 
 const openPageDetail = (id) => {
   PageDetail(id);
@@ -33,7 +34,35 @@ export const getOneResto = () => {
   }
 };
 
-const saveResto = (id, event) => {
+const deleteResto = (id, event) => {
+  const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
+  if (strconfirm) {
+    INDB.deleteData(id)
+      .then(() => {
+        Utils.toggleToast('success', 'Sukses Hapus Data');
+        getAllResto();
+      })
+      .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
+  }
+
+  event.stopPropagation();
+  event.preventDefault();
+};
+
+const deleteFavResto = () => {
+  const btn = document.getElementsByClassName('like');
+  for (let i = 0; i < btn.length; i++) {
+    btn[i].addEventListener('click', (event) => deleteResto(btn[i].id, event));
+
+    btn[i].addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        deleteResto(btn[i].id, event);
+      }
+    });
+  }
+};
+
+export const saveResto = (id, event) => {
   Utils.toggleLoader(true);
   API.getOneData(id)
     .then((result) => {
@@ -52,7 +81,7 @@ const saveResto = (id, event) => {
 };
 
 const saveFavResto = () => {
-  const btn = document.getElementsByClassName('greyheart');
+  const btn = document.getElementsByClassName('unlike');
   for (let i = 0; i < btn.length; i++) {
     btn[i].addEventListener('click', (event) => saveResto(btn[i].id, event));
 
@@ -64,45 +93,21 @@ const saveFavResto = () => {
   }
 };
 
-const deleteResto = (id, event) => {
-  const strconfirm = confirm('Anda Yakin Ingin Menghapus Data ini Dari Favourite ?');
-  if (strconfirm) {
-    INDB.deleteData(id)
-      .then(() => {
-        Utils.toggleToast('success', 'Sukses Hapus Data');
-        getAllResto();
-      })
-      .catch(() => Utils.toggleToast('error', 'Gagal Hapus Data !'));
-  }
-
-  event.stopPropagation();
-  event.preventDefault();
-};
-
-const deleteFavResto = () => {
-  const btn = document.getElementsByClassName('redheart');
-  for (let i = 0; i < btn.length; i++) {
-    btn[i].addEventListener('click', (event) => deleteResto(btn[i].id, event));
-
-    btn[i].addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        deleteResto(btn[i].id, event);
-      }
-    });
-  }
-};
-
 const checkDataINDB = (resto) => {
   const box = document.getElementById('box_outlet_wrapper');
-
   box.innerHTML = '';
+
   INDB.getOneData(resto.id)
-    .then((detilResto) => {
-      if (detilResto === undefined) {
-        box.innerHTML += makeOutlet(resto, 'greyheart');
+    .then((restoINDB) => {
+      let type = '';
+
+      if (restoINDB === undefined) {
+        type = 'unlike';
       } else {
-        box.innerHTML += makeOutlet(resto, 'redheart');
+        type = 'like';
       }
+
+      box.innerHTML += makeOutlet(resto, BtnFavCreator(type, resto.id));
 
       saveFavResto();
 
@@ -138,8 +143,8 @@ const getAllResto = () => {
 };
 
 const PageHome = () => {
-  document.getElementById('body-content').innerHTML = Home;
   document.title = 'FoodStop : Beranda';
+  document.getElementById('body-content').innerHTML = Home;
   document.getElementById('hero_search').focus();
   const inputSearch = document.querySelector('#hero_search');
 

@@ -5,7 +5,7 @@ const CONFIG = {
   DATABASE_NAME: 'foodstop-idb',
   DATABASE_VERSION: 1,
   OBJECT_STORE_NAME: 'resto',
-  CACHE_NAME: 'resto-cache-V2',
+  CACHE_NAME: 'resto-cache-V1',
 };
 
 export default CONFIG;
