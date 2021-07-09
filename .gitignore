@@ -1,2 +1,12 @@
 /node_modules
 /dist
+
+/.firebase
+.firebaserc
+firebase.json
+
+/public
+
+.gitignore
+
+yarn.lock
