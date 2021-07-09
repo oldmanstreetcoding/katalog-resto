@@ -35,7 +35,7 @@ const makeDetailOutlet = (resto) => {
     textUserReview += `<li>
               <div class="review_wrapper">
                   <div style="text-align: right; margin-right: 10px">
-                      <img class="imgmenu" src="../icons/profile.png" alt="avatar"/>
+                      <img class="imgmenu lazyload" data-src="../icons/profile.png" alt="avatar"/>
                   </div>
                   <div>
                       <p style="font-weight: bold">${review.name}</p>

@@ -4,7 +4,7 @@ import Utils from '../utils/utils';
 const makeOutlet = (resto, btnLike) => `
         <div id="${resto.id}" tabindex="0" class="box_outlet_item">
             <div class="card_outlet_header">
-                <img class="card_outlet_picture" src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}" alt="Restaurant ${resto.name}">
+                <img class="card_outlet_picture lazyload" data-src="${CONFIG.BASE_IMAGE_URL}small/${resto.pictureId}" alt="Restaurant ${resto.name}">
                 <div class="outlet_text_kota">
                     ${resto.city}
                 </div>
