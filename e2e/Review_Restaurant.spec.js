@@ -5,7 +5,7 @@ Before(({ I }) => {
   I.amOnPage('/');
 });
 
-Scenario('Unliking one restaurant', async ({ I }) => {
+Scenario('Review one restaurant', async ({ I }) => {
   /** 1. Pastikan daftar restaurant dari API tampil */
   I.seeElement('.outlet_text_name');
 
